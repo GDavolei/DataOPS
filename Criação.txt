@@ -1,0 +1,37 @@
+from pymongo import MongoClient
+
+# Conectar ao servidor do MongoDB
+client = MongoClient('')
+
+# Acessar o banco de dados
+db = client['']
+
+# Criar coleção Carro
+carro_collection = db['Carro']
+
+# Inserir documentos na coleção Carro
+carro_data = [
+    {'Modelo': 'Onix', 'Cor': 'Prata', 'Montadora': 'Chevrolet'},
+    {'Modelo': 'Polo', 'Cor': 'Branco', 'Montadora': 'Volkswagen'},
+    {'Modelo': 'Sandero', 'Cor': 'Prata', 'Montadora': 'Renault'},
+    {'Modelo': 'Fiesta', 'Cor': 'Vermelho', 'Montadora': 'Ford'},
+    {'Modelo': 'City', 'Cor': 'Preto', 'Montadora': 'Honda'}
+]
+
+carro_collection.insert_many(carro_data)
+
+# Criar coleção Montadora
+montadora_collection = db['Montadora']
+
+# Inserir documentos na coleção Montadora
+montadora_data = [
+    {'Montadora': 'Chevrolet', 'País': 'EUA'},
+    {'Montadora': 'Volkswagen', 'País': 'Alemanha'},
+    {'Montadora': 'Renault', 'País': 'França'},
+    {'Montadora': 'Ford', 'País': 'EUA'},
+    {'Montadora': 'Honda', 'País': 'Japão'}
+]
+
+montadora_collection.insert_many(montadora_data)
+
+print("Coleções criadas no MongoDB com sucesso!")

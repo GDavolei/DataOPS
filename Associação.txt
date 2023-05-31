@@ -1,0 +1,22 @@
+from pymongo import MongoClient
+
+# Conectar ao servidor do MongoDB
+client = MongoClient('')
+
+# Acessar o banco de dados
+db = client['']
+
+# Obter as coleções Carro e Montadora
+carro_collection = db['Carro']
+montadora_collection = db['Montadora']
+
+# Consultar todos os documentos da coleção Carro
+carros = carro_collection.find()
+
+# Para cada carro, buscar a montadora correspondente e adicionar o campo "montadora_id"
+for carro in carros:
+    montadora = montadora_collection.find_one({'Montadora': carro['Montadora']})
+    if montadora:
+        carro_collection.update_one({'_id': carro['_id']}, {'$set': {'montadora_id': montadora['_id']}})
+
+print("Relacionamento entre as coleções estabelecido com sucesso!")

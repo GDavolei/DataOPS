@@ -1,0 +1,39 @@
+from pymongo import MongoClient
+
+# Conectar ao servidor do MongoDB
+client = MongoClient('')
+
+# Acessar o banco de dados
+db = client['']
+
+# Obter as coleções Carro e Montadora
+carro_collection = db['Carro']
+montadora_collection = db['Montadora']
+
+# Realizar a junção entre as coleções Carro e Montadora
+carros_com_pais = carro_collection.aggregate([
+    {
+        '$lookup': {
+            'from': 'Montadora',
+            'localField': 'montadora_id',
+            'foreignField': '_id',
+            'as': 'montadora'
+        }
+    },
+    {
+        '$unwind': '$montadora'
+    },
+    {
+        '$project': {
+            '_id': 0,
+            'Modelo': 1,
+            'Cor': 1,
+            'País': '$montadora.País'
+        }
+    }
+])
+
+# Exibir os carros com o campo País
+for carro in carros_com_pais:
+    print(carro)
+
